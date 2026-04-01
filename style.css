@@ -25,9 +25,42 @@ body {
   height: auto;
 }
 
+.weather-container {
+  display: flex;
+  justify-content: space-evenly;
+
+}
+
+.card {
+  /* display: flex;
+  justify-content: center;
+  align-items: center; */
+  /* margin-left: 10px; */
+  display: flex;
+  flex-direction: column;
+  /* justify-content: center; */
+  align-items: center;
+}
+
+.forecast {
+  margin-top: 10px;
+  background-color: grey;
+  opacity: 0.8;
+  border-radius: 25px;
+  width: 100%;
+  height: auto;
+}
+
 body.rainy {
   background-image: url('./js/images/rainy.webp');
    background-size: 150%; 
+  animation: slowPan 20s ease-in-out infinite reverse;
+
+}
+
+body.sunny {
+  background-image: url('./js/images/sunny.webp');
+   background-size: 120%; 
   animation: slowPan 20s ease-in-out infinite reverse;
 
 }
