@@ -15,8 +15,9 @@ fetch(url)
     data = json
     console.log(data)
     console.log(data.current.condition.text)
-    // setBackground(data.current.condition.text)
-    setBackground("rainy")
+    setBackground(data.current.condition.text)
+    // setBackground("rainy")
+    loadInfo(data)
 })
 
 
@@ -25,7 +26,7 @@ function setBackground(weather) {
     console.log(weather)
     const body = document.body
 
-  // remove all previous classes
+  
   body.className = ""
 
   if (weather.includes("rainy")) {
@@ -34,7 +35,7 @@ function setBackground(weather) {
   else if (weather.includes("sunny") || weather.includes("Clear")) {
     body.classList.add("sunny")
   } 
-  else if (weather.includes("cloudy")) {
+  else if (weather.includes("Cloudy")) {
     body.classList.add("cloudy")
   } 
    else if (weather.includes("Overcast")) {
@@ -47,6 +48,25 @@ function setBackground(weather) {
     body.classList.add("default")
   }
 
+}
+
+
+
+function loadInfo(data) {
+  // let div = document.getElementById("info")
+  let location = data.location.name
+  let temp = data.current.temp_f
+  let weather = data.current.condition.text
+  let highlow = data.current.feelslike_f
+  let h1 = document.getElementById("temp")
+  h1.innerText = temp
+  let h4 = document.getElementById("location")
+  h4.innerText = location
+  let sp = document.getElementById("weather")
+  sp.innerText = weather
+  let hi = document.getElementById("highlow")
+  hi.innerText = highlow
+  // div.appendChild()
 }
 
 
