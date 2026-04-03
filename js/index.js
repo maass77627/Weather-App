@@ -8,6 +8,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     let data 
     let container = document.getElementById("weather-container")
+    let containertwo = document.getElementById("days")
 
 fetch(url)
 .then((response) => response.json())
@@ -30,6 +31,18 @@ fetch(`http://api.weatherapi.com/v1/forecast.json?key=${apiKey}&q=Austin&days=1`
     console.log(json.forecast.forecastday[0].hour)
     let forecasts = json.forecast.forecastday[0].hour
     forecasts.forEach((item)=> loadCurrent(item))
+
+})
+
+
+fetch(`http://api.weatherapi.com/v1/forecast.json?key=${apiKey}&q=Austin&days=10`)
+.then((response) => response.json())
+.then((json)=> {
+    console.log(json.forecast.forecastday)
+    let days = json.forecast.forecastday
+    days.forEach((day) => loadDays(day))
+    
+    
 
 })
 
@@ -72,7 +85,7 @@ function loadInfo(data) {
   let weather = data.current.condition.text
   let highlow = data.current.feelslike_f
   let h1 = document.getElementById("temp")
-  h1.innerText = temp
+  h1.innerText = temp + "°"
   let h4 = document.getElementById("location")
   h4.innerText = location
   let sp = document.getElementById("weather")
@@ -87,7 +100,7 @@ function loadInfo(data) {
 function loadCurrent(data) {
   console.log(data)
   let hour = data.time.split(" ")[1].split(":")[0]%12 || 12
-  let temper = data.temp_f
+  let temper = Math.round(data.temp_f)
   let image = data.condition.icon
   console.log(hour)
    let card = document.createElement("div")
@@ -97,12 +110,41 @@ function loadCurrent(data) {
     let time =  document.createElement("span")
     time.innerText = hour
     let temp = document.createElement("span")
-    temp.innerText = temper
+    temp.innerText = temper + "°"
     card.appendChild(time)
     card.appendChild(icon)
     card.appendChild(temp)
     container.appendChild(card)
    
+}
+
+
+function loadDays(item) {
+  // let today = new Date()
+  // console.log(today)
+  console.log(item)
+  console.log(item.date)
+  const today = new Date(item.date).toLocaleDateString("en-US", {
+  weekday: "short"
+});
+  console.log(today)
+
+
+  let card = document.createElement("div")
+  let weekday = document.createElement("h1")
+  weekday.innerText = today
+  let icontwo = document.createElement("img")
+  icontwo.src = item.day.condition.icon
+  let bar = document.createElement("div")
+  bar.className = "temp-bar"
+  let range = document.createElement("div")
+  range.className = "temp-range"
+  bar.appendChild(range)
+  card.appendChild(weekday)
+  card.appendChild(icontwo)
+  card.appendChild(bar)
+  containertwo.appendChild(card)
+  
 }
 
 

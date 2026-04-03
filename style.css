@@ -26,9 +26,16 @@ body {
 }
 
 .weather-container {
+  /* top: 100px; */
   display: flex;
   justify-content: space-evenly;
+  gap: 16px;
+  overflow-x: auto;  
+  padding: 10px;
+}
 
+.weather-container::-webkit-scrollbar {
+  display: none;
 }
 
 .card {
