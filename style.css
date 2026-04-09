@@ -9,7 +9,8 @@ body {
 }
 
 .info {
-   display: flex;
+  /* position: static; */
+    display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
@@ -23,6 +24,15 @@ body {
   border-radius: 25px;
   width: 100%;
   height: auto;
+}
+
+.airquality {
+  background-color: grey;
+  opacity: 0.8;
+  border-radius: 25px;
+  width: 100%;
+  height: auto;
+
 }
 
 .weather-container {
@@ -91,3 +101,53 @@ body.overcast {
     background-position: center bottom;
   }
 }
+
+.cardtwo {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  width: 100%;
+  height: auto;
+}
+
+.rightwrap {
+  display: flex;
+  /* background-color: #43e97b; */
+  width: 400px;
+  height: 20px;
+}
+
+.temp-bar {
+  width: 300px;
+  height: 20px;
+  background: #eaeaef;
+  border-radius: 10px;
+  position: relative;
+  overflow: hidden;
+}
+
+.temp-range {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  border-radius: 10px;
+
+  
+  background: linear-gradient(
+    to right,
+    #4facfe,   
+    #00f2fe,
+    #43e97b,   
+    #f9d423,
+    #f5576c    
+  );
+}
+
+.precipitation {
+  width: 100%;
+  height: auto;
+  background-color: grey;
+  opacity: 0.8;
+  border-radius: 25px;
+}
+

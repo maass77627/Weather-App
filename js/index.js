@@ -10,6 +10,11 @@ document.addEventListener("DOMContentLoaded", () => {
     let container = document.getElementById("weather-container")
     let containertwo = document.getElementById("days")
 
+    // const days = data.forecast.forecastday;
+
+  //  const globalMin = Math.min(...days.map(d => d.day.mintemp_f));
+  //  const globalMax = Math.max(...days.map(d => d.day.maxtemp_f));
+
 fetch(url)
 .then((response) => response.json())
 .then((json)=> {
@@ -17,6 +22,7 @@ fetch(url)
     data = json
     console.log(data)
     console.log(data.current.condition.text)
+    console.log(data.current.air_quality)
     // setBackground(data.current.condition.text)
     // loadCurrent(data)
     setBackground("rainy")
@@ -40,7 +46,9 @@ fetch(`http://api.weatherapi.com/v1/forecast.json?key=${apiKey}&q=Austin&days=10
 .then((json)=> {
     console.log(json.forecast.forecastday)
     let days = json.forecast.forecastday
-    days.forEach((day) => loadDays(day))
+    days.forEach((day) => { 
+      // createTempBar(day)
+      loadDays(day)})
     
     
 
@@ -70,9 +78,9 @@ function setBackground(weather) {
     
    
   } 
-  else {
-    body.classList.add("default")
-  }
+  // else {
+  //   body.classList.add("default")
+  // }
 
 }
 
@@ -91,7 +99,7 @@ function loadInfo(data) {
   let sp = document.getElementById("weather")
   sp.innerText = weather
   let hi = document.getElementById("highlow")
-  hi.innerText = highlow
+  hi.innerText = "feels like:" + highlow
   // div.appendChild()
 }
 
@@ -120,17 +128,25 @@ function loadCurrent(data) {
 
 
 function loadDays(item) {
-  // let today = new Date()
-  // console.log(today)
-  console.log(item)
   console.log(item.date)
+  console.log(new Date().toLocaleDateString().split("/").join("-"))
   const today = new Date(item.date).toLocaleDateString("en-US", {
   weekday: "short"
 });
   console.log(today)
 
+  // let wrapper = document.createElement("div")
+  // wrapper.className = "wrap"
+  let min = item.day.mintemp_f
+  let max = item.day.maxtemp_f
+  let span = document.createElement("span")
+  span.className = "span"
+  let spantwo = document.createElement("span")
+  span.innerText = min + "°"
+  spantwo.innerText = max + "°"
 
-  let card = document.createElement("div")
+  let cardtwo = document.createElement("div")
+  cardtwo.className = "cardtwo"
   let weekday = document.createElement("h1")
   weekday.innerText = today
   let icontwo = document.createElement("img")
@@ -139,13 +155,44 @@ function loadDays(item) {
   bar.className = "temp-bar"
   let range = document.createElement("div")
   range.className = "temp-range"
+
+  let rightwrap = document.createElement("div")
+  rightwrap.className = "rightwrap"
+  // wrapper.appendChild(span)
+  // bar.appendChild(wrapper)
+  //  bar.appendChild(span)
   bar.appendChild(range)
-  card.appendChild(weekday)
-  card.appendChild(icontwo)
-  card.appendChild(bar)
-  containertwo.appendChild(card)
+  rightwrap.appendChild(span)
+  rightwrap.appendChild(bar)
+  rightwrap.appendChild(spantwo)
+  // cardtwo.appendChild(rightwrap)
+  cardtwo.appendChild(weekday)
+  cardtwo.appendChild(icontwo)
+  cardtwo.appendChild(rightwrap)
+  // cardtwo.appendChild(spantwo)
+  // cardtwo.appendChild(bar)
+  // cardtwo.appendChild(span)
+  
+  containertwo.appendChild(cardtwo)
   
 }
+
+// function createTempBar(item) {
+//   console.log(item.day.mintemp_f)
+//   console.log(item.day.maxtemp_f)
+//   let min = item.day.mintemp_f
+//   let max = item.day.maxtemp_f
+//   let span = document.createElement("span")
+//   let spantwo = document.createElement("span")
+//   span.innerText = min + "°"
+//   spantwo.innerText = max + "°"
+
+//   let bar = document.createElement("div")
+//   bar.className = "temp-bar"
+//   let range = document.createElement("div")
+//   range.className = "temp-range"
+
+// }
 
 
 
