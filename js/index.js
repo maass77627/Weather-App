@@ -24,6 +24,7 @@ fetch(url)
     console.log(data.current.condition.text)
     console.log(data.current.air_quality)
     setAirQuality(data.current.air_quality["us-epa-index"])
+    setAirQualityBar(data.current.air_quality["us-epa-index"])
     // setBackground(data.current.condition.text)
     // loadCurrent(data)
     setBackground("rainy")
@@ -200,6 +201,8 @@ function setAirQuality(rating) {
   let h1 = document.getElementById("airquality-rating")
   h1.textContent = rating
   let h2 = document.getElementById("airquality-word")
+  let p = document.getElementById("airquality-description")
+  p.textContent = `Air quality index is ${rating}`
   switch(rating) {
     case 1:
     h2.textContent = "Good"
@@ -219,6 +222,10 @@ function setAirQuality(rating) {
         case 6: 
        h2.textContent = "Hazardous"
          break
+
+  }
+
+  function setAirQualityBar(rating) {
 
   }
 

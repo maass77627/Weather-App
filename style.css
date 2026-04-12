@@ -139,10 +139,48 @@ body.overcast {
 }
 
 .precipitation {
+  margin-top: 10px;
   width: 100%;
   height: auto;
   background-color: grey;
   opacity: 0.8;
   border-radius: 25px;
+}
+
+.airquality {
+  color: white;
+   padding-left: 20px; 
+   margin-top: 10px;
+}
+
+.airquality-bar {
+  width: 80%;
+  height: 10px;
+  border-radius: 6px;
+  background: linear-gradient(
+    to right,
+    #00e400,   
+    #ffff00,   
+    #ff7e00,   
+    #ff0000,   
+    #8f3f97,   
+    #7e0023    
+  );
+  position: relative;
+  /* left: 100px; */
+}
+
+.airquality-indicator {
+  position: absolute;
+  top: -4px;
+  width: 18px;
+  height: 18px;
+  background: rgb(245, 239, 239);
+  border-radius: 50%;
+  transform: translateX(-50%);
+}
+
+.airquality-rating {
+  left: 100px;
 }
 
