@@ -1,7 +1,7 @@
 const apiKey = '61337b4eb24f4830a75191505262903';
 const city = 'Austin';
-const url = `http://api.weatherapi.com/v1/current.json?key=${apiKey}&q=${city}`;
-
+// const url = `http://api.weatherapi.com/v1/current.json?key=${apiKey}&q=${city}&aqi=yes`;
+const url = `https://api.weatherapi.com/v1/current.json?key=${apiKey}&q=${city}&aqi=yes`;
 document.addEventListener("DOMContentLoaded", () => {
     
     console.log("DOM fully loaded and parsed");
@@ -23,6 +23,7 @@ fetch(url)
     console.log(data)
     console.log(data.current.condition.text)
     console.log(data.current.air_quality)
+    setAirQuality(data.current.air_quality["us-epa-index"])
     // setBackground(data.current.condition.text)
     // loadCurrent(data)
     setBackground("rainy")
@@ -193,6 +194,36 @@ function loadDays(item) {
 //   range.className = "temp-range"
 
 // }
+
+function setAirQuality(rating) {
+  console.log(rating)
+  let h1 = document.getElementById("airquality-rating")
+  h1.textContent = rating
+  let h2 = document.getElementById("airquality-word")
+  switch(rating) {
+    case 1:
+    h2.textContent = "Good"
+    break
+    case 2:
+      h2.textContent = "Moderate"
+      break
+      case 3: 
+       h2.textContent = "Unhealthy (Sensitive)"
+       break
+       case 4: 
+        h2.textContent = "Unhealthy"
+        break
+        case 5:
+        h2.textContent = "Very Unhealthy"
+        break
+        case 6: 
+       h2.textContent = "Hazardous"
+         break
+
+  }
+
+
+}
 
 
 
