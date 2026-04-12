@@ -5,6 +5,37 @@ const url = `https://api.weatherapi.com/v1/current.json?key=${apiKey}&q=${city}&
 document.addEventListener("DOMContentLoaded", () => {
     
     console.log("DOM fully loaded and parsed");
+    
+    const map = L.map('map').setView([30.2672, -97.7431], 6)
+
+   L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '© OpenStreetMap',
+    maxZoom: 19
+  }).addTo(map)
+
+  
+  function getCurrentUTCDateHour() {
+    const now = new Date()
+
+    now.setUTCHours(now.getUTCHours() - 1)
+    const yyyy = now.getUTCFullYear()
+    const mm = String(now.getUTCMonth() + 1).padStart(2, "0")
+    const dd = String(now.getUTCDate()).padStart(2, "0")
+    const hh = String(now.getUTCHours()).padStart(2, "0")
+    return `${yyyy}${mm}${dd}${hh}`
+  }
+
+   const timestamp = getCurrentUTCDateHour()
+  
+  L.tileLayer(
+    `https://weathermaps.weatherapi.com/precip/tiles/${timestamp}/{z}/{x}/{y}.png`,
+    {
+      opacity: 0.6, 
+      maxZoom: 10,
+      minZoom: 3
+    }
+  ).addTo(map)
+
 
     let data 
     let container = document.getElementById("weather-container")
@@ -24,7 +55,7 @@ fetch(url)
     console.log(data.current.condition.text)
     console.log(data.current.air_quality)
     setAirQuality(data.current.air_quality["us-epa-index"])
-    setAirQualityBar(data.current.air_quality["us-epa-index"])
+    // setAirQualityBar(data.current.air_quality["us-epa-index"])
     // setBackground(data.current.condition.text)
     // loadCurrent(data)
     setBackground("rainy")

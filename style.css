@@ -84,7 +84,8 @@ body.cloudy {
 }
 
 body.overcast {
-  background-image: url('./js/images/overcast.jpg');
+  background-image: url('./images/overcast.jpg');
+  /* background-image: url('./js/images/overcast.jpg'); */
   animation: slowPan 20s ease-in-out infinite alternate;
 }
 
@@ -194,4 +195,8 @@ body.overcast {
 
 /* map */
 
-#map { height: 180px; }
+#map {
+   height: 180px; 
+   /* width: 700px; */
+
+}
