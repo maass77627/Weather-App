@@ -128,8 +128,13 @@ function loadCurrent(data) {
    
 }
 
+// function calculateChanceOf(item) {
+
+// }
+
 
 function loadDays(item) {
+  console.log(item)
   console.log(item.date)
   console.log(new Date().toLocaleDateString().split("/").join("-"))
   const today = new Date(item.date).toLocaleDateString("en-US", {
@@ -146,6 +151,11 @@ function loadDays(item) {
   let spantwo = document.createElement("span")
   span.innerText = min + "°"
   spantwo.innerText = max + "°"
+
+  let chanceOf = document.createElement("span")
+  chanceOf.textContent = item.day.daily_chance_of_rain + "%"
+   let wrap = document.createElement("div")
+   wrap.className = "day-wrap"
 
   let cardtwo = document.createElement("div")
   cardtwo.className = "cardtwo"
@@ -167,9 +177,12 @@ function loadDays(item) {
   rightwrap.appendChild(span)
   rightwrap.appendChild(bar)
   rightwrap.appendChild(spantwo)
+  wrap.appendChild(icontwo)
+  wrap.appendChild(chanceOf)
   // cardtwo.appendChild(rightwrap)
   cardtwo.appendChild(weekday)
-  cardtwo.appendChild(icontwo)
+  // cardtwo.appendChild(icontwo)
+  cardtwo.appendChild(wrap)
   cardtwo.appendChild(rightwrap)
   // cardtwo.appendChild(spantwo)
   // cardtwo.appendChild(bar)

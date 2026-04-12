@@ -121,6 +121,13 @@ body.overcast {
   overflow: hidden;
 }
 
+.day-wrap {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
 .temp-range {
   position: absolute;
   height: 100%;
