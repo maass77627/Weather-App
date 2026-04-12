@@ -9,7 +9,7 @@ body {
 }
 
 .info {
-  /* position: static; */
+  
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -36,7 +36,6 @@ body {
 }
 
 .weather-container {
-  /* top: 100px; */
   display: flex;
   justify-content: space-evenly;
   gap: 16px;
@@ -49,13 +48,9 @@ body {
 }
 
 .card {
-  /* display: flex;
-  justify-content: center;
-  align-items: center; */
-  /* margin-left: 10px; */
   display: flex;
   flex-direction: column;
-  /* justify-content: center; */
+ 
   align-items: center;
 }
 
