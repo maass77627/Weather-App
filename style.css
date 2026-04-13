@@ -84,7 +84,7 @@ body.cloudy {
 }
 
 body.overcast {
-  background-image: url('./images/overcast.jpg');
+  background-image: url('./js/images/overcast.jpg');
   /* background-image: url('./js/images/overcast.jpg'); */
   animation: slowPan 20s ease-in-out infinite alternate;
 }
@@ -196,7 +196,60 @@ body.overcast {
 /* map */
 
 #map {
-   height: 180px; 
+   height: 400px; 
    /* width: 700px; */
 
+}
+
+
+.div-wrap {
+  margin-top: 10px;
+  width: 100%;
+  height: auto;
+  display: flex;
+  justify-content: space-around;
+}
+
+.feels-like {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  background-color: grey;
+  opacity: 0.8;
+  width: 40%;
+  height: auto;
+  border-radius: 20px;
+}
+
+.uv-index {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: white;
+   background-color: grey;
+  opacity: 0.8;
+  width: 40%;
+  height: auto;
+  border-radius: 20px;
+}
+
+.wind {
+  margin-top: 10px;
+  padding: 20px;
+   color: white;
+   background-color: grey;
+  opacity: 0.8;
+  width: 80%;
+  height: 200px;
+  border-radius: 20px
+
+}
+
+.row {
+  display: flex;
+  gap: 100px;
+  height: 50px;
 }

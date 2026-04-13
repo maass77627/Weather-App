@@ -5,6 +5,9 @@ const url = `https://api.weatherapi.com/v1/current.json?key=${apiKey}&q=${city}&
 document.addEventListener("DOMContentLoaded", () => {
     
     console.log("DOM fully loaded and parsed");
+
+    let feels_like = document.getElementById("feels-like")
+    let uv_index = document.getElementById("uv-index")
     
     const map = L.map('map').setView([30.2672, -97.7431], 6)
 
@@ -55,10 +58,13 @@ fetch(url)
     console.log(data.current.condition.text)
     console.log(data.current.air_quality)
     setAirQuality(data.current.air_quality["us-epa-index"])
+    feels_like.textContent = data.current.feelslike_f + "°"
+    uv_index.textContent = data.current.uv
     // setAirQualityBar(data.current.air_quality["us-epa-index"])
     // setBackground(data.current.condition.text)
     // loadCurrent(data)
-    setBackground("rainy")
+    setWind(data.current)
+    setBackground(data.current.condition.text)
     loadInfo(data)
 })
 
@@ -77,6 +83,7 @@ fetch(`http://api.weatherapi.com/v1/forecast.json?key=${apiKey}&q=Austin&days=1`
 fetch(`http://api.weatherapi.com/v1/forecast.json?key=${apiKey}&q=Austin&days=10`)
 .then((response) => response.json())
 .then((json)=> {
+  console.log(json.forecast.forecastday.length)
     console.log(json.forecast.forecastday)
     let days = json.forecast.forecastday
     days.forEach((day) => { 
@@ -96,24 +103,33 @@ function setBackground(weather) {
   
   body.className = ""
 
-  if (weather.includes("rainy")) {
-    body.classList.add("rainy")
-  } 
-  else if (weather.includes("Sunny") || weather.includes("Clear")) {
-    body.classList.add("sunny")
-  } 
-  else if (weather.includes("Cloudy")) {
-    body.classList.add("cloudy")
-  } 
-   else if (weather.includes("Overcast")) {
-     body.classList.add("overcast")
-    //  document.body.style.backgroundImage = "url('./js/images/overcast.jpg')";
+  // if (weather.includes("rainy")) {
+  //   body.classList.add("rainy")
+  // } 
+  // else if (weather.includes("Sunny") || weather.includes("Clear")) {
+  //   body.classList.add("sunny")
+  // } 
+  // else if (weather.includes("Cloudy")) {
+  //   body.classList.add("cloudy")
+  // } 
+  //  else if (weather.includes("Overcast")) {
+  //    body.classList.add("overcast")
+  //   //  document.body.style.backgroundImage = "url('./js/images/overcast.jpg')";
     
    
-  } 
-  // else {
-  //   body.classList.add("default")
-  // }
+  // } 
+  const condition = weather.toLowerCase()
+  // const condition = data.current.condition.text.toLowerCase()
+
+if (condition.includes("rain")) {
+  document.body.className = "rain"
+} else if (condition.includes("overcast") || condition.includes("cloud")) {
+  document.body.className = "overcast"
+} else if (condition.includes("sun") || condition.includes("clear")) {
+  document.body.className = "sunny"
+} else {
+  document.body.className = "default"
+}
 
 }
 
@@ -269,13 +285,26 @@ function setAirQuality(rating) {
 
   }
 
-  function setAirQualityBar(rating) {
-
-  }
+ 
 
 
 }
 
+
+ function setAirQualityBar(rating) {
+  console.log(rating)
+  }
+
+  function setWind(data) {
+    console.log(data)
+    let mph = document.getElementById("mph")
+    mph.textContent = data.wind_mph
+    let gusts = document.getElementById("gusts")
+    gusts.textContent = data.gust_mph
+    let dir = document.getElementById("dir")
+    dir.textContent = data.wind_dir
+
+  }
 
 
 
