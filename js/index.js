@@ -1,15 +1,28 @@
 const apiKey = '61337b4eb24f4830a75191505262903';
-const city = 'Austin';
+let city = 'Austin';
 // const url = `http://api.weatherapi.com/v1/current.json?key=${apiKey}&q=${city}&aqi=yes`;
 const url = `https://api.weatherapi.com/v1/current.json?key=${apiKey}&q=${city}&aqi=yes`;
 document.addEventListener("DOMContentLoaded", () => {
-    
+    loadWeather(city)
     console.log("DOM fully loaded and parsed");
+
+
+    document.getElementById("search-btn").addEventListener("click", () => {
+      const input = document.getElementById("city-input").value
+      // if (!input) return
+
+       city = input
+      loadWeather(city)
+     })
+
+    let button = document.getElementById("list-button")
+    // button.addEventListener("click", )
 
     let feels_like = document.getElementById("feels-like")
     let uv_index = document.getElementById("uv-index")
     
     const map = L.map('map').setView([30.2672, -97.7431], 6)
+    // map.setView([data.location.lat, data.location.lon], 6)
 
    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution: '© OpenStreetMap',
@@ -49,11 +62,17 @@ document.addEventListener("DOMContentLoaded", () => {
   //  const globalMin = Math.min(...days.map(d => d.day.mintemp_f));
   //  const globalMax = Math.max(...days.map(d => d.day.maxtemp_f));
 
-fetch(url)
+  function loadWeather(city){
+// fetch(url)
+// fetch(`https://api.weatherapi.com/v1/current.json?key=${apiKey}&q=${city}&aqi=yes`)
+fetch(`https://api.weatherapi.com/v1/forecast.json?key=${apiKey}&q=${city}&days=3&aqi=yes`)
 .then((response) => response.json())
 .then((json)=> {
     console.log(json)
+    
     data = json
+
+    map.setView([data.location.lat, data.location.lon], 6)
     console.log(data)
     console.log(data.current.condition.text)
     console.log(data.current.air_quality)
@@ -66,33 +85,45 @@ fetch(url)
     setWind(data.current)
     setBackground(data.current.condition.text)
     loadInfo(data)
+
+    container.innerHTML = ""
+  containertwo.innerHTML = ""
+
+    let days = data.forecast.forecastday
+      days.forEach((day) => loadDays(day))
+
+      let hours = data.forecast.forecastday[0].hour
+      hours.forEach((item) => loadCurrent(item))
+  
+
 })
+   }
 
 
-fetch(`http://api.weatherapi.com/v1/forecast.json?key=${apiKey}&q=Austin&days=1`)
-.then((response) => response.json())
-.then((json)=> {
-    console.log(json)
-    console.log(json.forecast.forecastday[0].hour)
-    let forecasts = json.forecast.forecastday[0].hour
-    forecasts.forEach((item)=> loadCurrent(item))
+// fetch(`http://api.weatherapi.com/v1/forecast.json?key=${apiKey}&q=Austin&days=1`)
+// .then((response) => response.json())
+// .then((json)=> {
+//     console.log(json)
+//     console.log(json.forecast.forecastday[0].hour)
+//     let forecasts = json.forecast.forecastday[0].hour
+//     forecasts.forEach((item)=> loadCurrent(item))
 
-})
+// })
 
 
-fetch(`http://api.weatherapi.com/v1/forecast.json?key=${apiKey}&q=Austin&days=10`)
-.then((response) => response.json())
-.then((json)=> {
-  console.log(json.forecast.forecastday.length)
-    console.log(json.forecast.forecastday)
-    let days = json.forecast.forecastday
-    days.forEach((day) => { 
-      // createTempBar(day)
-      loadDays(day)})
+// fetch(`http://api.weatherapi.com/v1/forecast.json?key=${apiKey}&q=Austin&days=10`)
+// .then((response) => response.json())
+// .then((json)=> {
+//   console.log(json.forecast.forecastday.length)
+//     console.log(json.forecast.forecastday)
+//     let days = json.forecast.forecastday
+//     days.forEach((day) => { 
+//       // createTempBar(day)
+//       loadDays(day)})
     
     
 
-})
+// })
 
 
 
@@ -100,36 +131,36 @@ function setBackground(weather) {
     console.log(weather)
     const body = document.body
 
-  
+               const condition = weather.toLowerCase()
   body.className = ""
 
-  // if (weather.includes("rainy")) {
-  //   body.classList.add("rainy")
-  // } 
-  // else if (weather.includes("Sunny") || weather.includes("Clear")) {
-  //   body.classList.add("sunny")
-  // } 
-  // else if (weather.includes("Cloudy")) {
-  //   body.classList.add("cloudy")
-  // } 
-  //  else if (weather.includes("Overcast")) {
-  //    body.classList.add("overcast")
-  //   //  document.body.style.backgroundImage = "url('./js/images/overcast.jpg')";
+  if (condition.includes("rainy")) {
+    body.classList.add("rainy")
+  } 
+  else if (condition.includes("sunny") || condition.includes("Clear")) {
+    body.classList.add("sunny")
+  } 
+  else if (condition.includes("cloudy")) {
+    body.classList.add("cloudy")
+  } 
+   else if (condition.includes("overcast")) {
+     body.classList.add("overcast")
+    //  document.body.style.backgroundImage = "url('./js/images/overcast.jpg')";
     
    
-  // } 
-  const condition = weather.toLowerCase()
-  // const condition = data.current.condition.text.toLowerCase()
+  } 
+//   const condition = weather.toLowerCase()
+  
 
-if (condition.includes("rain")) {
-  document.body.className = "rain"
-} else if (condition.includes("overcast") || condition.includes("cloud")) {
-  document.body.className = "overcast"
-} else if (condition.includes("sun") || condition.includes("clear")) {
-  document.body.className = "sunny"
-} else {
-  document.body.className = "default"
-}
+// if (condition.includes("rain")) {
+//   document.body.className = "rain"
+// } else if (condition.includes("overcast") || condition.includes("cloud")) {
+//   document.body.className = "overcast"
+// } else if (condition.includes("sun") || condition.includes("clear")) {
+//   document.body.className = "sunny"
+// } else {
+//   document.body.className = "default"
+// }
 
 }
 

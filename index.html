@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
      <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
      integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
      crossorigin=""/>
@@ -13,12 +15,15 @@
      integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
      crossorigin=""></script>
     <title>Weather App</title>
+
 </head>
 <body>
 
     <div class="clouds"></div>
 
     <h1>Weather App</h1>
+    <input id="city-input" placeholder="Enter city" />
+<button id="search-btn">Search</button>
 
     <div class="info">
         <h2 id="location" class="location"></h2>
@@ -83,6 +88,8 @@
 
 <div class="wind">
     <p>Wind</p>
+
+ <div class="wind-wrap"> 
     <div class="row">
         <label>Wind</label>
         <span id="mph">data</span>
@@ -95,10 +102,26 @@
         <label>Direction</label>
         <span id="dir">data</span>
     </div>
- 
+ </div> 
+
+    <div class="compass">
+  <div class="compass-circle">
+    <span class="north">N</span>
+    <span class="east">E</span>
+    <span class="south">S</span>
+    <span class="west">W</span>
+
+    <div id="wind-arrow">↑</div>
+  </div>
+
+  <p id="direction-label">N</p>
 </div>
 
-
+<footer class="footer">
+    <div class="list-button">
+    <i class="fa-solid fa-list"></i>
+    </div>
+</footer>
 
     <script src="js/index.js"></script>
 </body>
