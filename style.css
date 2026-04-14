@@ -239,6 +239,7 @@ body.overcast {
 .wind {
   margin-top: 10px;
   /* padding-top: 100px; */
+  font-size: larger;
   padding: 20px;
    color: white;
    background-color: grey;
@@ -280,7 +281,7 @@ body.overcast {
 .compass-circle {
   width: 120px;
   height: 120px;
-  border: 2px solid white;
+  border: 5px solid white;
   border-radius: 50%;
   position: relative;
   display: flex;
@@ -336,4 +337,52 @@ position: fixed;
   height: 100px;
   border-radius: 50%;
   background: rgba(255, 255, 255, 0.2);
+}
+
+/* .city-panel {
+  width: 600px;
+  height: 500px;
+  background-color: #8f3f97;
+} */
+
+.city-panel {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 300px;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(10px);
+  color: white;
+  padding: 20px;
+  transform: translateX(100%); /* hidden by default */
+  transition: transform 0.3s ease;
+  z-index: 1000;
+}
+
+/* when visible */
+.city-panel:not(.hidden) {
+  transform: translateX(0);
+}
+
+.city-panel-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.city-list {
+  margin-top: 20px;
+}
+
+.city-item {
+  padding: 12px;
+  border-radius: 10px;
+  margin-bottom: 10px;
+  background: rgba(255,255,255,0.1);
+  cursor: pointer;
+}
+
+.city-item:hover {
+  background: rgba(255,255,255,0.2);
 }

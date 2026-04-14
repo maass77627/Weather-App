@@ -20,8 +20,11 @@
 <body>
 
     <div class="clouds"></div>
-
+ <div id="list-button" class="list-button">
+    <i class="fa-solid fa-list"></i>
+    </div>
     <h1>Weather App</h1>
+    <button id="save-city">Save City</button>
     <input id="city-input" placeholder="Enter city" />
 <button id="search-btn">Search</button>
 
@@ -117,10 +120,25 @@
   <p id="direction-label">N</p>
 </div>
 
+
+
+
+
+<div id="city-panel" class="city-panel hidden">
+  <div class="city-panel-header">
+    <h2>Saved Cities</h2>
+    <button id="close-panel">✕</button>
+  </div>
+
+  <div id="panel-city-list" class="city-list"></div>
+</div>
+
+
 <footer class="footer">
-    <div class="list-button">
-    <i class="fa-solid fa-list"></i>
-    </div>
+
+    
+
+    
 </footer>
 
     <script src="js/index.js"></script>

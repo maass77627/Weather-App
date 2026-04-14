@@ -4,18 +4,39 @@ let city = 'Austin';
 const url = `https://api.weatherapi.com/v1/current.json?key=${apiKey}&q=${city}&aqi=yes`;
 document.addEventListener("DOMContentLoaded", () => {
     loadWeather(city)
+    renderCities()
     console.log("DOM fully loaded and parsed");
 
 
     document.getElementById("search-btn").addEventListener("click", () => {
       const input = document.getElementById("city-input").value
-      // if (!input) return
-
-       city = input
+      city = input
       loadWeather(city)
      })
 
-    let button = document.getElementById("list-button")
+     document.getElementById("save-city").addEventListener("click", () => {
+  let cities = JSON.parse(localStorage.getItem("cities")) || []
+
+  if (!cities.includes(city)) {
+    cities.push(city)
+    localStorage.setItem("cities", JSON.stringify(cities))
+    renderCities()
+  }
+})
+
+
+     let panel = document.getElementById("city-panel")
+
+document.getElementById("list-button").addEventListener("click", () => {
+  panel.classList.remove("hidden")
+  console.log("list button clicked")
+})
+
+document.getElementById("close-panel").addEventListener("click", () => {
+  panel.classList.add("hidden")
+})
+
+    // let button = document.getElementById("list-button")
     // button.addEventListener("click", )
 
     let feels_like = document.getElementById("feels-like")
@@ -57,10 +78,7 @@ document.addEventListener("DOMContentLoaded", () => {
     let container = document.getElementById("weather-container")
     let containertwo = document.getElementById("days")
 
-    // const days = data.forecast.forecastday;
-
-  //  const globalMin = Math.min(...days.map(d => d.day.mintemp_f));
-  //  const globalMax = Math.max(...days.map(d => d.day.maxtemp_f));
+    
 
   function loadWeather(city){
 // fetch(url)
@@ -87,14 +105,23 @@ fetch(`https://api.weatherapi.com/v1/forecast.json?key=${apiKey}&q=${city}&days=
     loadInfo(data)
 
     container.innerHTML = ""
-  containertwo.innerHTML = ""
+    containertwo.innerHTML = ""
 
     let days = data.forecast.forecastday
       days.forEach((day) => loadDays(day))
 
-      let hours = data.forecast.forecastday[0].hour
-      hours.forEach((item) => loadCurrent(item))
+    
   
+let currentHour = new Date().getHours()
+
+let todayHours = data.forecast.forecastday[0].hour.slice(currentHour)
+let tomorrowHours = data.forecast.forecastday[1].hour
+
+let allHours = [...todayHours, ...tomorrowHours]
+
+allHours.slice(0, 24).forEach((item, index) => {
+  loadCurrent(item, index)
+})
 
 })
    }
@@ -134,10 +161,10 @@ function setBackground(weather) {
                const condition = weather.toLowerCase()
   body.className = ""
 
-  if (condition.includes("rainy")) {
+  if (condition.includes("rainy") || condition.includes("rain")) {
     body.classList.add("rainy")
   } 
-  else if (condition.includes("sunny") || condition.includes("Clear")) {
+  else if (condition.includes("sunny") || condition.includes("clear")) {
     body.classList.add("sunny")
   } 
   else if (condition.includes("cloudy")) {
@@ -149,18 +176,7 @@ function setBackground(weather) {
     
    
   } 
-//   const condition = weather.toLowerCase()
-  
 
-// if (condition.includes("rain")) {
-//   document.body.className = "rain"
-// } else if (condition.includes("overcast") || condition.includes("cloud")) {
-//   document.body.className = "overcast"
-// } else if (condition.includes("sun") || condition.includes("clear")) {
-//   document.body.className = "sunny"
-// } else {
-//   document.body.className = "default"
-// }
 
 }
 
@@ -185,30 +201,45 @@ function loadInfo(data) {
 
 
 
-function loadCurrent(data) {
-  console.log(data)
-  let hour = data.time.split(" ")[1].split(":")[0]%12 || 12
+
+
+
+function loadCurrent(data, index) {
+  let fullTime = data.time.split(" ")[1]
+  let hour24 = parseInt(fullTime.split(":")[0])
+
+  let ampm = hour24 >= 12 ? "PM" : "AM"
+  let hour12 = hour24 % 12 || 12
+
   let temper = Math.round(data.temp_f)
   let image = data.condition.icon
-  console.log(hour)
-   let card = document.createElement("div")
-    card.className = "card"
-    let icon = document.createElement("img")
-    icon.src = image
-    let time =  document.createElement("span")
-    time.innerText = hour
-    let temp = document.createElement("span")
-    temp.innerText = temper + "°"
-    card.appendChild(time)
-    card.appendChild(icon)
-    card.appendChild(temp)
-    container.appendChild(card)
+
+  let card = document.createElement("div")
+  card.className = "card"
+
+  let icon = document.createElement("img")
+  icon.src = image
+
+  let time = document.createElement("span")
+
    
+  if (index === 0) {
+    time.innerText = "Now"
+  } else {
+    time.innerText = `${hour12} ${ampm}`
+  }
+
+  let temp = document.createElement("span")
+  temp.innerText = temper + "°"
+
+  card.appendChild(time)
+  card.appendChild(icon)
+  card.appendChild(temp)
+
+  container.appendChild(card)
 }
 
-// function calculateChanceOf(item) {
 
-// }
 
 
 function loadDays(item) {
@@ -329,13 +360,40 @@ function setAirQuality(rating) {
   function setWind(data) {
     console.log(data)
     let mph = document.getElementById("mph")
-    mph.textContent = data.wind_mph
+    mph.textContent = data.wind_mph + "mph"
     let gusts = document.getElementById("gusts")
-    gusts.textContent = data.gust_mph
+    gusts.textContent = data.gust_mph + "mph"
     let dir = document.getElementById("dir")
     dir.textContent = data.wind_dir
+    let arrow = document.getElementById("wind-arrow")
+  arrow.style.transform = `rotate(${data.wind_degree}deg)`
 
   }
+
+
+
+  function renderCities() {
+  const list = document.getElementById("panel-city-list")
+  list.innerHTML = ""
+
+   let panel = document.getElementById("city-panel") 
+
+  let cities = JSON.parse(localStorage.getItem("cities")) || []
+
+  cities.forEach((c) => {
+    let div = document.createElement("div")
+    div.className = "city-item"
+    div.textContent = c
+
+    div.addEventListener("click", () => {
+      city = c
+      loadWeather(city)
+      panel.classList.add("hidden") // close after click
+    })
+
+    list.appendChild(div)
+  })
+}
 
 
 
