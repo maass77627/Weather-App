@@ -372,29 +372,71 @@ function setAirQuality(rating) {
 
 
 
-  function renderCities() {
+//   function renderCities() {
+//   const list = document.getElementById("panel-city-list")
+//   list.innerHTML = ""
+
+//    let panel = document.getElementById("city-panel") 
+
+//   let cities = JSON.parse(localStorage.getItem("cities")) || []
+
+//   cities.forEach((c) => {
+//     let div = document.createElement("div")
+//     div.className = "city-item"
+//     div.textContent = c
+
+//     div.addEventListener("click", () => {
+//       city = c
+//       loadWeather(city)
+//       panel.classList.add("hidden") // close after click
+//     })
+
+//     list.appendChild(div)
+//   })
+// }
+
+
+function renderCities() {
   const list = document.getElementById("panel-city-list")
   list.innerHTML = ""
 
-   let panel = document.getElementById("city-panel") 
-
+  let panel = document.getElementById("city-panel")
   let cities = JSON.parse(localStorage.getItem("cities")) || []
 
   cities.forEach((c) => {
     let div = document.createElement("div")
     div.className = "city-item"
-    div.textContent = c
 
+    let name = document.createElement("span")
+    name.textContent = c
+
+    let deleteBtn = document.createElement("button")
+    deleteBtn.textContent = "✕"
+    deleteBtn.className = "delete-btn"
+
+    // 🔴 delete logic
+    deleteBtn.addEventListener("click", (e) => {
+      e.stopPropagation() // prevents triggering city click
+
+      let updated = cities.filter(cityName => cityName !== c)
+      localStorage.setItem("cities", JSON.stringify(updated))
+
+      renderCities()
+    })
+
+    // click to load city
     div.addEventListener("click", () => {
       city = c
       loadWeather(city)
-      panel.classList.add("hidden") // close after click
+      panel.classList.add("hidden")
     })
+
+    div.appendChild(name)
+    div.appendChild(deleteBtn)
 
     list.appendChild(div)
   })
 }
-
 
 
 
